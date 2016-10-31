@@ -29,15 +29,15 @@ private class Boxes.OvirtBroker : Boxes.Broker {
         if (proxies.lookup (source.name) != null)
             return;
 
-        // turn ovirt://host/path into https://host/path/api which
+        // turn ovirt://host/path into https://host/path/ovirt-engine/api which
         // is where the REST API is reachable from
         Xml.URI uri = Xml.URI.parse (source.uri);
         return_if_fail (uri.scheme == "ovirt");
         uri.scheme = "https";
         if (uri.path == null)
-            uri.path= "/api";
+            uri.path= "/ovirt-engine/api";
         else
-            uri.path = GLib.Path.build_filename (uri.path, "api");
+            uri.path = GLib.Path.build_filename (uri.path, "ovirt-engine/api");
 
         var proxy = new Ovirt.Proxy (uri.save ());
 
